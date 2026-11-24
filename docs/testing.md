@@ -5,7 +5,8 @@
 | Shared unit | `npm run test:shared` | YouTube URL parsing, slugs, form validation, subscriber ranges | — |
 | Admin unit | `npm run test:admin` | Label helpers + React component rendering (Vitest + Testing Library) | — |
 | Both of the above | `npm test` | Shared + admin | — |
-| Public e2e (browser) | `npm run test:e2e` | SSR + hydration + client routing + URL filters + real 404, driven by Playwright | Chromium (pre-installed in this environment) |
+| Typecheck | `npm run typecheck` | Type-checks every workspace | — |
+| Public e2e (browser) | `npm run test:e2e` | SSR + hydration + client routing + URL filters + real 404, driven by Playwright | One-time: `npx playwright install chromium` |
 | Database / RLS | `npm run test:db` | Schema, RLS policies and the full moderation/request flow on a throwaway Postgres | a local Postgres superuser |
 
 ## Database / RLS acceptance tests

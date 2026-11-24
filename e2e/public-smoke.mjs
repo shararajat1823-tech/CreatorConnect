@@ -12,10 +12,16 @@ import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 
-// Playwright is pre-installed globally in this environment; resolve it via
-// CommonJS require (works from any directory) rather than ESM import.
+// Resolve Playwright from the workspace (it's a devDependency). If the browser
+// binary isn't installed yet, point the user at the one-time install command.
 const require = createRequire(import.meta.url);
-const { chromium } = require('playwright');
+let chromium;
+try {
+  ({ chromium } = require('playwright'));
+} catch {
+  console.error('Playwright is not installed. Run:\n  npm install\n  npx playwright install chromium');
+  process.exit(1);
+}
 
 const PORT = 4199;
 const BASE = `http://localhost:${PORT}`;
@@ -90,6 +96,9 @@ try {
 
   console.log(`\n${passed} checks passed.`);
 } catch (e) {
+  if (/Executable doesn't exist|install/i.test(e.message)) {
+    console.error('Chromium is not installed for Playwright. Run:\n  npx playwright install chromium');
+  }
   fail(e.message);
 } finally {
   await browser?.close();
