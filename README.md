@@ -47,10 +47,14 @@ npm run dev
 | `npm install` | Install all workspaces (one lockfile) |
 | `npm run dev` | Run marketplace + admin together |
 | `npm run build` | Build shared, marketplace (SSR) and admin |
-| `npm test` | Run admin (Vitest) and marketplace (Karma) tests |
+| `npm test` | Run shared + admin unit tests (Vitest) |
+| `npm run test:e2e` | Build the marketplace and run the Playwright public-site smoke test |
+| `npm run test:db` | Run the database/RLS acceptance tests (needs a local Postgres) |
 | `npm run typecheck` | Type-check every workspace |
 | `npm run build:shared` | Build only the shared package |
 | `npm run dev:marketplace` / `npm run dev:admin` | Run one app |
+
+See [`docs/testing.md`](docs/testing.md) for what each suite covers.
 
 ## Renaming the product
 
