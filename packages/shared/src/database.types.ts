@@ -256,9 +256,21 @@ export interface Database {
         Args: { p_request_id: string; p_status: string };
         Returns: string;
       };
+      post_message: {
+        Args: { p_request_id: string; p_body: string };
+        Returns: string;
+      };
+      report_creator: {
+        Args: { p_creator_id: string; p_reason: string; p_details: string | null };
+        Returns: string;
+      };
       resolve_report: {
         Args: { p_report_id: string; p_status: string };
         Returns: string;
+      };
+      request_account_deletion: {
+        Args: Record<string, never>;
+        Returns: undefined;
       };
     };
     Enums: {

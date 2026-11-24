@@ -32,6 +32,7 @@
               }
             ],
             "styles": [
+              "../../packages/shared/src/tokens.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -39,7 +40,10 @@
             "security": {
               "allowedHosts": []
             },
-            "prerender": true,
+            "prerender": {
+              "discoverRoutes": false,
+              "routesFile": "prerender-routes.txt"
+            },
             "ssr": {
               "entry": "src/server.ts"
             }
@@ -99,6 +103,7 @@
               }
             ],
             "styles": [
+              "../../packages/shared/src/tokens.css",
               "src/styles.scss"
             ],
             "scripts": []

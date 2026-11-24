@@ -1,1 +1,120 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles for the CreatorConnect marketplace.
+   Design tokens come from @creatorconnect/shared (loaded before this file). */
+
+/* ---- Layout ---- */
+.cc-container {
+  width: 100%;
+  max-width: var(--cc-max-content);
+  margin: 0 auto;
+  padding-inline: var(--cc-space-5);
+}
+@media (max-width: 640px) {
+  .cc-container { padding-inline: var(--cc-space-4); }
+}
+
+.cc-prose { max-width: var(--cc-max-prose); }
+
+/* ---- Typography ---- */
+h1, h2, h3, h4 { line-height: 1.15; font-weight: 700; margin: 0 0 var(--cc-space-3); letter-spacing: -0.01em; }
+h1 { font-size: clamp(2rem, 1.3rem + 3vw, var(--cc-text-4xl)); }
+h2 { font-size: var(--cc-text-2xl); }
+h3 { font-size: var(--cc-text-xl); }
+p { margin: 0 0 var(--cc-space-4); }
+a { color: var(--cc-accent-ink); text-underline-offset: 2px; }
+a:hover { color: var(--cc-accent-hover); }
+.cc-muted { color: var(--cc-text-muted); }
+.cc-subtle { color: var(--cc-text-subtle); }
+.cc-eyebrow {
+  text-transform: uppercase; letter-spacing: 0.08em; font-size: var(--cc-text-xs);
+  font-weight: 700; color: var(--cc-accent-ink);
+}
+
+/* ---- Buttons ---- */
+.cc-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--cc-space-2);
+  font: inherit; font-weight: 600; line-height: 1; cursor: pointer;
+  padding: 0.7rem 1.15rem; border-radius: var(--cc-radius-md);
+  border: 1px solid transparent; text-decoration: none; transition: background-color .15s, border-color .15s, color .15s;
+  min-height: 44px;
+}
+.cc-btn:disabled, .cc-btn[aria-disabled='true'] { opacity: .55; cursor: not-allowed; }
+.cc-btn--primary { background: var(--cc-accent); color: var(--cc-text-on-accent); }
+.cc-btn--primary:hover:not(:disabled) { background: var(--cc-accent-hover); color: #fff; }
+.cc-btn--secondary { background: var(--cc-surface); color: var(--cc-text); border-color: var(--cc-border-strong); }
+.cc-btn--secondary:hover:not(:disabled) { border-color: var(--cc-text-subtle); }
+.cc-btn--ghost { background: transparent; color: var(--cc-text); }
+.cc-btn--ghost:hover:not(:disabled) { background: var(--cc-bg-subtle); }
+.cc-btn--danger { background: var(--cc-danger); color: #fff; }
+.cc-btn--block { width: 100%; }
+.cc-btn--sm { padding: 0.45rem 0.8rem; min-height: 36px; font-size: var(--cc-text-sm); }
+
+/* ---- Forms ---- */
+.cc-field { display: flex; flex-direction: column; gap: var(--cc-space-2); margin-bottom: var(--cc-space-4); }
+.cc-label { font-weight: 600; font-size: var(--cc-text-sm); }
+.cc-hint { font-size: var(--cc-text-xs); color: var(--cc-text-subtle); }
+.cc-input, .cc-textarea, .cc-select {
+  font: inherit; width: 100%; padding: 0.6rem 0.75rem; color: var(--cc-text);
+  background: var(--cc-surface); border: 1px solid var(--cc-border-strong);
+  border-radius: var(--cc-radius-md); min-height: 44px;
+}
+.cc-textarea { min-height: 120px; resize: vertical; }
+.cc-input:focus, .cc-textarea:focus, .cc-select:focus { border-color: var(--cc-focus); }
+.cc-input[aria-invalid='true'], .cc-textarea[aria-invalid='true'], .cc-select[aria-invalid='true'] {
+  border-color: var(--cc-danger);
+}
+.cc-error { color: var(--cc-danger); font-size: var(--cc-text-sm); }
+.cc-form-error {
+  background: var(--cc-danger-soft); color: var(--cc-danger);
+  padding: var(--cc-space-3) var(--cc-space-4); border-radius: var(--cc-radius-md);
+  border: 1px solid #efc4c0;
+}
+.cc-form-success {
+  background: var(--cc-success-soft); color: var(--cc-success);
+  padding: var(--cc-space-3) var(--cc-space-4); border-radius: var(--cc-radius-md);
+  border: 1px solid #c7e3d2;
+}
+
+/* ---- Cards & surfaces ---- */
+.cc-card {
+  background: var(--cc-surface); border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-lg); box-shadow: var(--cc-shadow-sm);
+}
+.cc-panel {
+  background: var(--cc-surface); border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-lg); padding: var(--cc-space-5);
+}
+
+/* ---- Chips & badges ---- */
+.cc-chip {
+  display: inline-flex; align-items: center; gap: .35rem; font-size: var(--cc-text-xs);
+  font-weight: 600; padding: .3rem .6rem; border-radius: var(--cc-radius-pill);
+  background: var(--cc-bg-subtle); color: var(--cc-text-muted); border: 1px solid var(--cc-border);
+}
+.cc-chip--accent { background: var(--cc-accent-soft); color: var(--cc-accent-ink); border-color: var(--cc-accent-border); }
+
+.cc-badge {
+  display: inline-flex; align-items: center; gap: .35rem; font-size: var(--cc-text-xs);
+  font-weight: 700; padding: .25rem .55rem; border-radius: var(--cc-radius-sm); border: 1px solid transparent;
+}
+.cc-badge--draft { background: var(--cc-bg-subtle); color: var(--cc-text-muted); }
+.cc-badge--under_review { background: var(--cc-warning-soft); color: var(--cc-warning); }
+.cc-badge--changes_requested { background: var(--cc-warning-soft); color: var(--cc-warning); }
+.cc-badge--published { background: var(--cc-success-soft); color: var(--cc-success); }
+.cc-badge--suspended { background: var(--cc-danger-soft); color: var(--cc-danger); }
+.cc-badge--pending { background: var(--cc-warning-soft); color: var(--cc-warning); }
+.cc-badge--accepted { background: var(--cc-success-soft); color: var(--cc-success); }
+.cc-badge--declined { background: var(--cc-danger-soft); color: var(--cc-danger); }
+.cc-badge--withdrawn { background: var(--cc-bg-subtle); color: var(--cc-text-muted); }
+.cc-badge--verified { background: var(--cc-accent-soft); color: var(--cc-accent-ink); border-color: var(--cc-accent-border); }
+
+/* ---- Utility ---- */
+.cc-stack > * + * { margin-top: var(--cc-space-4); }
+.cc-row { display: flex; gap: var(--cc-space-3); align-items: center; flex-wrap: wrap; }
+.cc-spread { display: flex; gap: var(--cc-space-3); align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.cc-section { padding-block: var(--cc-space-8); }
+.cc-divider { height: 1px; background: var(--cc-border); border: 0; margin: var(--cc-space-5) 0; }
+.cc-grid-cards {
+  display: grid; gap: var(--cc-space-5);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+img { max-width: 100%; display: block; }

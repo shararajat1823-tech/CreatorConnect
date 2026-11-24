@@ -15,7 +15,8 @@ packages/shared/dist/
 .env
 .env.local
 .env.*.local
-apps/marketplace/src/environments/environment.local.ts
+# Generated at install/build from env vars — never committed
+apps/marketplace/src/environments/environment.ts
 
 # Supabase local
 supabase/.branches
