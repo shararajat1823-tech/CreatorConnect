@@ -1,0 +1,24 @@
+# Supabase CLI configuration for CreatorConnect.
+# Docs: https://supabase.com/docs/guides/cli/config
+project_id = "creatorconnect"
+
+[db]
+port = 54322
+major_version = 15
+
+# Apply the fictional local seed after migrations on `supabase db reset`.
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth]
+# Local dev convenience. In production configure these in the dashboard and set
+# the Site URL / redirect URLs to your deployed marketplace domain.
+site_url = "http://localhost:4200"
+additional_redirect_urls = ["http://localhost:4200", "http://localhost:5173"]
+# Keep email confirmations ON to match production; the local Inbucket mailbox
+# (http://localhost:54324) catches the confirmation emails.
+enable_confirmations = true
+
+[storage]
+enabled = true

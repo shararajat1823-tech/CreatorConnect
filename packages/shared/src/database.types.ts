@@ -152,6 +152,7 @@ export interface Database {
           budget_max: number | null;
           currency: string | null;
           budget_negotiable: boolean;
+          client_token: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -189,7 +190,7 @@ export interface Database {
         Row: {
           id: string;
           creator_id: string;
-          admin_id: string;
+          actor_id: string;
           action: ModerationAction;
           reason: string | null;
           created_at: string;
