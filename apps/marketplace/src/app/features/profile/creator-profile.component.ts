@@ -1,4 +1,13 @@
-import { Component, Input, OnInit, PendingTasks, inject, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  PendingTasks,
+  TransferState,
+  inject,
+  makeStateKey,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
   type PricingItem,
@@ -49,7 +58,7 @@ interface VideoView {
       @let c = creator()!;
       <article class="cc-container page">
         <header class="profile-head">
-          <img class="avatar" [src]="avatar() ?? placeholder" [alt]="c.channel_name + ' avatar'" width="96" height="96" />
+          <img class="avatar" [src]="avatar() ?? placeholder" [alt]="c.channel_name + ' avatar'" width="96" height="96" (error)="onImgError($event)" />
           <div class="id">
             <div class="name-row">
               <h1>{{ c.channel_name }}</h1>
@@ -190,6 +199,7 @@ export class CreatorProfileComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly pendingTasks = inject(PendingTasks);
   private readonly supa = inject(SupabaseService);
+  private readonly transferState = inject(TransferState);
   private readonly response = inject(RESPONSE, { optional: true });
 
   @Input() slug = '';
@@ -222,34 +232,50 @@ export class CreatorProfileComponent implements OnInit {
     }));
 
   async ngOnInit(): Promise<void> {
+    const key = makeStateKey<PublicCreatorRow | null>('creator:' + this.slug);
+
+    // Browser's first render: reuse what the server already fetched.
+    if (this.supa.isBrowser && this.transferState.hasKey(key)) {
+      const cached = this.transferState.get<PublicCreatorRow | null>(key, null);
+      this.transferState.remove(key);
+      this.applyCreator(cached);
+      this.loading.set(false);
+      return;
+    }
+
     const done = this.pendingTasks.add();
     try {
       const c = await this.creators.getPublicBySlug(this.slug);
-      if (!c) {
-        this.notFound.set(true);
-        this.response?.status(404);
-        this.meta.setPage({ title: 'Profile not found', noindex: true, path: `/creators/${this.slug}` });
-        return;
-      }
-      this.creator.set(c);
-      this.meta.setPage({
-        title: `${c.channel_name} — creator`,
-        description: c.bio?.slice(0, 160) || `${c.channel_name} — sponsorships and collaborations.`,
-        path: `/creators/${c.slug}`,
-        image: avatarUrl(c.avatar_path),
-        type: 'profile',
-      });
-      // Returning from sign-in with a pre-selected request type.
-      if (
-        this.supa.isBrowser &&
-        this.auth.isSignedIn() &&
-        (this.request === 'paid_sponsorship' || this.request === 'creator_collaboration')
-      ) {
-        this.activeType.set(this.request);
-      }
+      if (!this.supa.isBrowser) this.transferState.set(key, c);
+      this.applyCreator(c);
     } finally {
       this.loading.set(false);
       done();
+    }
+  }
+
+  private applyCreator(c: PublicCreatorRow | null): void {
+    if (!c) {
+      this.notFound.set(true);
+      this.response?.status(404);
+      this.meta.setPage({ title: 'Profile not found', noindex: true, path: `/creators/${this.slug}` });
+      return;
+    }
+    this.creator.set(c);
+    this.meta.setPage({
+      title: `${c.channel_name} — creator`,
+      description: c.bio?.slice(0, 160) || `${c.channel_name} — sponsorships and collaborations.`,
+      path: `/creators/${c.slug}`,
+      image: avatarUrl(c.avatar_path),
+      type: 'profile',
+    });
+    // Returning from sign-in with a pre-selected request type.
+    if (
+      this.supa.isBrowser &&
+      this.auth.isSignedIn() &&
+      (this.request === 'paid_sponsorship' || this.request === 'creator_collaboration')
+    ) {
+      this.activeType.set(this.request);
     }
   }
 
@@ -273,6 +299,11 @@ export class CreatorProfileComponent implements OnInit {
     }
     this.activeType.set(null);
     this.showReport.set(true);
+  }
+
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img.src !== this.placeholder) img.src = this.placeholder;
   }
 
   priceText(p: PricingItem): string {

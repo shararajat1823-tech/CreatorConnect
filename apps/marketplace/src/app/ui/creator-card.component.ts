@@ -24,6 +24,7 @@ import {
           width="56"
           height="56"
           loading="lazy"
+          (error)="onImgError($event)"
         />
         <div class="id">
           <div class="name-row">
@@ -108,4 +109,9 @@ export class CreatorCardComponent {
     this.creator().languages.map(languageLabel).join(', ')
   );
   readonly formats = computed(() => this.creator().formats.map(formatLabel));
+
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img.src !== this.placeholder) img.src = this.placeholder;
+  }
 }

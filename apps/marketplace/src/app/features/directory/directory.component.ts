@@ -1,4 +1,12 @@
-import { Component, PendingTasks, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  PendingTasks,
+  TransferState,
+  computed,
+  inject,
+  makeStateKey,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import {
@@ -11,6 +19,7 @@ import {
 } from '@creatorconnect/shared';
 import { CreatorsService, DirectoryFilters, DirectoryResult } from '../../core/creators.service';
 import { MetaService } from '../../core/meta.service';
+import { SupabaseService } from '../../core/supabase.service';
 import { CreatorCardComponent } from '../../ui/creator-card.component';
 import { StateViewComponent } from '../../ui/state-view.component';
 
@@ -110,7 +119,7 @@ import { StateViewComponent } from '../../ui/state-view.component';
         </aside>
 
         <section class="results" aria-live="polite">
-          @if (loading()) {
+          @if (loading() && !result()) {
             <app-state-view [spinner]="true" title="Loading creators…" />
           } @else if (error()) {
             <app-state-view icon="⚠" title="Something went wrong" [message]="error()!">
@@ -191,6 +200,8 @@ export class DirectoryComponent {
   private readonly router = inject(Router);
   private readonly meta = inject(MetaService);
   private readonly pendingTasks = inject(PendingTasks);
+  private readonly supa = inject(SupabaseService);
+  private readonly transferState = inject(TransferState);
 
   readonly niches = NICHES;
   readonly languages = LANGUAGES;
@@ -240,11 +251,26 @@ export class DirectoryComponent {
   }
 
   private async load(filters: DirectoryFilters): Promise<void> {
+    const key = makeStateKey<DirectoryResult>('directory:' + JSON.stringify(filters));
+    // On the browser's first render, reuse the result the server already fetched
+    // (no re-fetch, no spinner flash, no hydration mismatch).
+    if (this.supa.isBrowser && this.transferState.hasKey(key)) {
+      const cached = this.transferState.get<DirectoryResult | null>(key, null);
+      this.transferState.remove(key);
+      if (cached) {
+        this.result.set(cached);
+        this.error.set(cached.error && cached.error !== 'not_configured' ? cached.error : null);
+        this.loading.set(false);
+        return;
+      }
+    }
+
     this.loading.set(true);
     this.error.set(null);
     const done = this.pendingTasks.add();
     try {
       const res = await this.creators.searchDirectory(filters);
+      if (!this.supa.isBrowser) this.transferState.set(key, res);
       this.result.set(res);
       this.error.set(res.error && res.error !== 'not_configured' ? res.error : null);
     } catch (e) {
