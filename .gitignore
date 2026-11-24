@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+.angular/
+*.tsbuildinfo
+apps/marketplace/.angular/
+packages/shared/dist/
+
+# Environment files (never commit real secrets)
+.env
+.env.local
+.env.*.local
+apps/marketplace/src/environments/environment.local.ts
+
+# Supabase local
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test / coverage
+coverage/
+.nyc_output/
+playwright-report/
+test-results/

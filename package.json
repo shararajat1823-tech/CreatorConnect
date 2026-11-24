@@ -1,0 +1,34 @@
+{
+  "name": "creatorconnect",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CreatorConnect — a marketplace for finding social media creators for paid sponsorships and collaborations.",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20.11.0 <23",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "build:shared": "npm run build -w @creatorconnect/shared",
+    "dev:marketplace": "npm run start -w marketplace",
+    "dev:admin": "npm run dev -w admin",
+    "dev": "npm run build:shared && concurrently -n marketplace,admin -c blue,magenta \"npm:dev:marketplace\" \"npm:dev:admin\"",
+    "build:marketplace": "npm run build:shared && npm run build -w marketplace",
+    "build:admin": "npm run build:shared && npm run build -w admin",
+    "build": "npm run build:shared && npm run build:marketplace && npm run build:admin",
+    "test:marketplace": "npm run test -w marketplace",
+    "test:admin": "npm run test -w admin",
+    "test": "npm run build:shared && npm run test:admin && npm run test:marketplace",
+    "typecheck": "npm run typecheck -w @creatorconnect/shared && npm run typecheck -w admin && npm run -w marketplace build -- --configuration development",
+    "lint:admin": "npm run lint -w admin",
+    "clean": "rimraf \"apps/*/dist\" \"packages/*/dist\" \"apps/*/.angular\" node_modules/.cache"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "rimraf": "^6.0.1"
+  }
+}
