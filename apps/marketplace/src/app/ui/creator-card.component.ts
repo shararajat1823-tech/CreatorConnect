@@ -22,25 +22,34 @@ import {
         } @else {
           <div class="media-fallback"></div>
         }
-        <span class="play" aria-hidden="true">▶</span>
-        @if (creator().ownership_verified) {
-          <span class="verified cc-badge cc-badge--verified">✓ Verified</span>
+        @if (!compact()) {
+          <span class="play" aria-hidden="true">▶</span>
+          @if (creator().ownership_verified) {
+            <span class="verified cc-badge cc-badge--verified">✓ Verified</span>
+          }
         }
       </div>
       <div class="body">
-        <div class="name-row">
-          <span class="name">{{ creator().channel_name }}</span>
-        </div>
-        <div class="meta cc-subtle">
-          @if (subs()) { <span>{{ subs() }} subscribers</span> }
-          @else if (rangeLabel()) { <span>{{ rangeLabel() }}</span> }
-          @if (country()) { <span aria-hidden="true">·</span><span>{{ country() }}</span> }
-        </div>
-        @if (niches().length) {
-          <div class="chips">
-            @for (n of niches(); track n) { <span class="cc-chip cc-chip--accent">{{ n }}</span> }
-            @if (languages()) { <span class="cc-chip">{{ languages() }}</span> }
+        <span class="name">{{ creator().channel_name }}</span>
+        @if (compact()) {
+          @if (niches().length) {
+            <span class="cc-chip cc-chip--accent solo">{{ niches()[0] }}</span>
+          }
+          @if (subs() || rangeLabel()) {
+            <div class="meta cc-subtle">{{ subs() || rangeLabel() }} subscribers</div>
+          }
+        } @else {
+          <div class="meta cc-subtle">
+            @if (subs()) { <span>{{ subs() }} subscribers</span> }
+            @else if (rangeLabel()) { <span>{{ rangeLabel() }}</span> }
+            @if (country()) { <span aria-hidden="true">·</span><span>{{ country() }}</span> }
           </div>
+          @if (niches().length) {
+            <div class="chips">
+              @for (n of niches(); track n) { <span class="cc-chip cc-chip--accent">{{ n }}</span> }
+              @if (languages()) { <span class="cc-chip">{{ languages() }}</span> }
+            </div>
+          }
         }
         <span class="view">View profile →</span>
       </div>
@@ -68,6 +77,7 @@ import {
       .verified { position: absolute; left: 12px; top: 12px; }
       .body { display: flex; flex-direction: column; gap: 0.5rem; padding: var(--cc-space-4); flex: 1; }
       .name { font-weight: 700; font-size: var(--cc-text-lg); }
+      .solo { align-self: flex-start; }
       .meta { display: flex; gap: 0.4rem; font-size: var(--cc-text-sm); flex-wrap: wrap; }
       .chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
       .view {
@@ -88,6 +98,7 @@ import {
 export class CreatorCardComponent {
   readonly creator = input.required<PublicCreatorRow>();
   readonly layout = input<'grid' | 'list'>('grid');
+  readonly compact = input(false);
 
   readonly avatar = computed(() => avatarUrl(this.creator().avatar_path));
   readonly subs = computed(() => formatSubscribers(this.creator().subscriber_count));

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 820" role="img" aria-label="Creator studio illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a1a52"/>
+      <stop offset="0.55" stop-color="#1a1030"/>
+      <stop offset="1" stop-color="#120a24"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.68" cy="0.4" r="0.5">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lamp" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffd9a0"/>
+      <stop offset="0.6" stop-color="#f0a860" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#f0a860" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3550"/>
+      <stop offset="1" stop-color="#1c1930"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="820" fill="url(#bg)"/>
+  <rect width="1000" height="820" fill="url(#glow)"/>
+
+  <!-- back shelf -->
+  <rect x="620" y="150" width="300" height="12" rx="4" fill="#2c2743"/>
+  <rect x="640" y="90" width="12" height="60" fill="#241f3a"/>
+  <rect x="890" y="90" width="12" height="60" fill="#241f3a"/>
+  <!-- books -->
+  <rect x="670" y="100" width="16" height="50" rx="2" fill="#4c3f73"/>
+  <rect x="690" y="108" width="16" height="42" rx="2" fill="#6b5aa0"/>
+  <rect x="710" y="96" width="16" height="54" rx="2" fill="#3a3158"/>
+  <!-- lamp glow -->
+  <circle cx="820" cy="120" r="120" fill="url(#lamp)"/>
+  <circle cx="820" cy="120" r="30" fill="#ffe4b5"/>
+  <rect x="816" y="150" width="8" height="12" fill="#2c2743"/>
+
+  <!-- plant -->
+  <path d="M120 560 q-40 -120 10 -200 q20 60 -10 200z" fill="#4a7a5a"/>
+  <path d="M150 560 q0 -150 60 -210 q-10 90 -60 210z" fill="#3c6a4c"/>
+  <path d="M150 560 q40 -120 110 -150 q-40 80 -110 150z" fill="#5a8a6a"/>
+  <path d="M110 560 h90 l-14 90 h-62z" fill="#2a2440"/>
+
+  <!-- desk -->
+  <rect x="0" y="640" width="1000" height="22" fill="#2a2440"/>
+  <rect x="0" y="662" width="1000" height="120" fill="#1c1830"/>
+
+  <!-- camera on tripod -->
+  <g>
+    <line x1="430" y1="470" x2="360" y2="640" stroke="url(#metal)" stroke-width="10" stroke-linecap="round"/>
+    <line x1="430" y1="470" x2="500" y2="640" stroke="url(#metal)" stroke-width="10" stroke-linecap="round"/>
+    <line x1="430" y1="470" x2="430" y2="640" stroke="url(#metal)" stroke-width="8" stroke-linecap="round"/>
+    <rect x="360" y="400" width="150" height="90" rx="12" fill="#262040" stroke="#4a4468" stroke-width="2"/>
+    <rect x="395" y="378" width="60" height="26" rx="6" fill="#1b1730"/>
+    <circle cx="435" cy="445" r="34" fill="#15121f" stroke="#5b4f85" stroke-width="4"/>
+    <circle cx="435" cy="445" r="18" fill="#2a2450"/>
+    <circle cx="428" cy="438" r="6" fill="#a78bfa" opacity="0.8"/>
+    <circle cx="492" cy="414" r="5" fill="#ff7a7a"/>
+  </g>
+
+  <!-- microphone -->
+  <g>
+    <rect x="770" y="470" width="10" height="170" rx="5" fill="url(#metal)"/>
+    <ellipse cx="775" cy="645" rx="55" ry="12" fill="#2a2440"/>
+    <line x1="775" y1="470" x2="690" y2="430" stroke="#3a3550" stroke-width="8" stroke-linecap="round"/>
+    <rect x="648" y="392" width="44" height="90" rx="22" fill="#1b1830" stroke="#5b4f85" stroke-width="3"/>
+    <g stroke="#4a4468" stroke-width="2">
+      <line x1="656" y1="408" x2="684" y2="408"/>
+      <line x1="656" y1="420" x2="684" y2="420"/>
+      <line x1="656" y1="432" x2="684" y2="432"/>
+      <line x1="656" y1="444" x2="684" y2="444"/>
+      <line x1="656" y1="456" x2="684" y2="456"/>
+    </g>
+    <rect x="662" y="470" width="16" height="22" rx="4" fill="#2a2450"/>
+  </g>
+
+  <!-- laptop -->
+  <g>
+    <path d="M560 640 l20 -70 h150 l20 70z" fill="#201c38"/>
+    <rect x="585" y="578" width="140" height="56" rx="4" fill="#15121f"/>
+    <rect x="592" y="585" width="126" height="42" rx="2" fill="#2a2450"/>
+  </g>
+</svg>
