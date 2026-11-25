@@ -15,7 +15,7 @@ import {
   imports: [RouterLink],
   host: { '[class.as-list]': "layout() === 'list'" },
   template: `
-    <a class="card" [routerLink]="['/creators', creator().slug]">
+    <a class="card" [class.is-compact]="compact()" [routerLink]="['/creators', creator().slug]">
       <div class="media">
         @if (avatar()) {
           <img [src]="avatar()!" [alt]="creator().channel_name + ' channel image'" loading="lazy" (error)="onImgError($event)" />
@@ -84,6 +84,13 @@ import {
         margin-top: auto; align-self: flex-start; font-weight: 600; font-size: var(--cc-text-sm);
         color: var(--cc-accent-ink); padding-top: 0.4rem;
       }
+      .is-compact { border-radius: 0.75rem; }
+      .is-compact .media { aspect-ratio: 4 / 3; overflow: hidden; }
+      .is-compact .media img { display: block; object-position: center 32%; }
+      .is-compact .body { gap: 0.375rem; padding: 0.75rem; }
+      .is-compact .name { font-size: 1rem; line-height: 1.3; }
+      .is-compact .meta { color: var(--cc-text-muted); }
+      .is-compact .view { padding-top: 0.25rem; }
       /* List layout */
       :host(.as-list) .card { flex-direction: row; }
       :host(.as-list) .media { aspect-ratio: auto; width: 200px; flex: 0 0 200px; }
