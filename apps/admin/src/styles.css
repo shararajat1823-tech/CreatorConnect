@@ -15,6 +15,7 @@
   gap: 1rem;
   padding: 0.75rem 1.25rem;
 }
+h1, h2 { font-family: var(--cc-font-display); }
 .app-brand {
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -73,11 +74,11 @@
   text-decoration: none;
 }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-.btn-primary { background: var(--cc-accent); color: #fff; }
+.btn-primary { background: var(--cc-accent); color: var(--cc-text-on-accent); }
 .btn-primary:hover:not(:disabled) { background: var(--cc-accent-hover); }
 .btn-secondary { background: var(--cc-surface); color: var(--cc-text); border-color: var(--cc-border-strong); }
-.btn-success { background: var(--cc-success); color: #fff; }
-.btn-danger { background: var(--cc-danger); color: #fff; }
+.btn-success { background: var(--cc-success); color: #0a2015; }
+.btn-danger { background: var(--cc-danger); color: #2a0b0b; }
 .btn-ghost { background: transparent; color: var(--cc-text); }
 .btn-sm { padding: 0.35rem 0.65rem; min-height: 32px; font-size: var(--cc-text-sm); }
 

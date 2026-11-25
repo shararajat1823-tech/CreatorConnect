@@ -14,6 +14,7 @@ export interface DirectoryFilters {
   country?: string;
   range?: string; // subscriber_range id
   format?: string;
+  sort?: string; // 'relevance' | 'subscribers' | 'newest'
   page?: number;
 }
 
@@ -39,11 +40,15 @@ export class CreatorsService {
     if (!client) return { ...empty, error: 'not_configured' };
 
     try {
-      let query = client
-        .from('public_creators')
-        .select('*', { count: 'exact' })
-        .order('subscriber_count', { ascending: false, nullsFirst: false })
-        .order('published_at', { ascending: false });
+      let query = client.from('public_creators').select('*', { count: 'exact' });
+      if (filters.sort === 'newest') {
+        query = query.order('published_at', { ascending: false });
+      } else {
+        // 'relevance' and 'subscribers' both lead with audience size
+        query = query
+          .order('subscriber_count', { ascending: false, nullsFirst: false })
+          .order('published_at', { ascending: false });
+      }
 
       const q = filters.q?.trim();
       if (q) {

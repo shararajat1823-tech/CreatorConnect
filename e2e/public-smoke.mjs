@@ -69,9 +69,9 @@ try {
   browser = await chromium.launch({ args: ['--no-sandbox'] });
   const page = await browser.newPage();
 
-  // 1. Homepage renders the required headline.
+  // 1. Homepage renders the hero headline.
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-  await expectText(page, 'Find YouTube creators for your next campaign');
+  await expectText(page, 'creator collab');
 
   // 2. Guest header shows the sign-in affordance after hydration.
   await expectText(page, 'Sign in');

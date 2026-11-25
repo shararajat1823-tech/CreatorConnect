@@ -30,6 +30,7 @@ import { AuthService } from '../core/auth.service';
           <a routerLink="/list-your-channel" routerLinkActive="active" (click)="close()">
             List Your Channel
           </a>
+          <a routerLink="/help" routerLinkActive="active" (click)="close()">Resources</a>
 
           @if (auth.isSignedIn()) {
             <a routerLink="/dashboard" routerLinkActive="active" (click)="close()">Dashboard</a>

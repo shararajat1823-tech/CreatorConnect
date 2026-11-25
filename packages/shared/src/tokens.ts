@@ -8,37 +8,37 @@
  */
 export const tokens = {
   color: {
-    bg: '#FBFAF7',
-    bgSubtle: '#F3F1EC',
-    surface: '#FFFFFF',
-    surfaceSubtle: '#FAF8F4',
+    bg: '#0E0C14',
+    bgSubtle: '#15121E',
+    surface: '#181424',
+    surfaceSubtle: '#1F1A2E',
 
-    text: '#1A1917', // near-black, ~15.8:1 on bg
-    textMuted: '#595650', // ~7.2:1 on bg
-    textSubtle: '#7A756C', // ~4.6:1 on bg (AA for normal text)
-    textOnAccent: '#FFFFFF',
+    text: '#F5F3FB',
+    textMuted: '#B6AECB',
+    textSubtle: '#867E9C',
+    textOnAccent: '#1A1030',
 
-    border: '#E6E1D8',
-    borderStrong: '#D2CCC0',
+    border: '#2A2540',
+    borderStrong: '#3A3356',
 
-    accent: '#E8482D', // coral — buttons / large text
-    accentHover: '#CC3B22',
-    accentInk: '#B2351E', // coral text on light bg (AA for normal text)
-    accentSoft: '#FCEEE9', // coral tint surface
-    accentBorder: '#F3C9BD',
+    accent: '#A78BFA', // violet — buttons / large text
+    accentHover: '#B9A3FB',
+    accentInk: '#C4B5FD', // violet text on dark bg
+    accentSoft: '#241C3C', // violet tint surface
+    accentBorder: '#3D3163',
 
-    focus: '#0B5BD3', // visible focus ring, distinct from the accent
-    success: '#1F7A4D',
-    successSoft: '#E7F3EC',
-    warning: '#8A5A00',
-    warningSoft: '#FBF1DC',
-    danger: '#B4332A',
-    dangerSoft: '#FBEAE8',
+    focus: '#C4B5FD', // visible focus ring on dark
+    success: '#5CE09B',
+    successSoft: '#14301F',
+    warning: '#F5C451',
+    warningSoft: '#2E2510',
+    danger: '#FF8A8A',
+    dangerSoft: '#331519',
   },
   font: {
     sans: `'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
-    // Fluid display for marketing headlines
-    display: `'Inter', system-ui, sans-serif`,
+    // High-contrast serif for marketing headlines
+    display: `'Playfair Display', 'Georgia', serif`,
   },
   fontSize: {
     xs: '0.78rem',
