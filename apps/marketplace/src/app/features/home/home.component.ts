@@ -11,16 +11,16 @@ import { CreatorCardComponent } from '../../ui/creator-card.component';
   imports: [RouterLink, FormsModule, CreatorCardComponent],
   template: `
     <section class="hero">
-      <div class="glow" aria-hidden="true"></div>
       <div class="cc-container hero-inner">
         <div class="hero-copy">
-          <h1>Find your next<br />creator collab.</h1>
+          <h1>Find your next creator collab.</h1>
           <p class="lead cc-muted">Find YouTube creators for sponsorships and collaborations.</p>
 
-          <form class="hero-search" (ngSubmit)="search()">
+          <form class="hero-search" role="search" (ngSubmit)="search()">
             <div class="search-field">
               <span class="icon" aria-hidden="true">⌕</span>
               <input
+                type="search"
                 name="q"
                 [(ngModel)]="q"
                 aria-label="Search creators"
@@ -34,18 +34,18 @@ import { CreatorCardComponent } from '../../ui/creator-card.component';
         </div>
 
         <div class="hero-visual">
-          <img src="hero.svg" alt="A creator studio with a camera, microphone and warm lighting" />
+          <img src="hero.svg" width="443" height="373" alt="" />
         </div>
       </div>
     </section>
 
     @if (featured().length) {
-      <section class="cc-container cc-section">
+      <section class="cc-container home-section">
         <div class="cc-spread section-head">
           <h2>Featured creators</h2>
           <a class="explore" routerLink="/directory">Browse all creators →</a>
         </div>
-        <div class="cc-grid-cards">
+        <div class="featured-grid">
           @for (c of featured(); track c.id) {
             <app-creator-card [creator]="c" [compact]="true" />
           }
@@ -53,7 +53,7 @@ import { CreatorCardComponent } from '../../ui/creator-card.component';
       </section>
     }
 
-    <section class="cc-container cc-section">
+    <section class="cc-container home-section">
       <h2>How it works</h2>
       <div class="steps">
         <article class="step">
@@ -86,7 +86,7 @@ import { CreatorCardComponent } from '../../ui/creator-card.component';
       </div>
     </section>
 
-    <section class="cc-container">
+    <section class="cc-container creator-section">
       <div class="creator-bar">
         <h2>Are you a creator?</h2>
         <span class="divider" aria-hidden="true"></span>
@@ -97,60 +97,75 @@ import { CreatorCardComponent } from '../../ui/creator-card.component';
   `,
   styles: [
     `
-      .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--cc-border); }
-      .glow { position: absolute; width: 640px; height: 640px; border-radius: 50%; top: -200px; right: -120px;
-        background: radial-gradient(circle, #7c3aed, transparent 70%); filter: blur(90px); opacity: 0.5; pointer-events: none; }
+      .hero-inner, .home-section, .creator-section {
+        width: min(100% - 2.5rem, 68rem);
+        margin-inline: auto;
+        padding-inline: 0;
+      }
       .hero-inner {
-        position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr;
-        gap: var(--cc-space-7); align-items: center; padding-block: var(--cc-space-8);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(1.5rem, 3vw, 2.5rem);
+        align-items: center;
+        padding-block: clamp(1.75rem, 4vw, 2.75rem);
       }
-      .hero-copy h1 { margin: 0 0 1rem; }
-      .lead { font-size: var(--cc-text-lg); max-width: 40ch; margin-bottom: var(--cc-space-5); }
-      .hero-search { display: flex; gap: var(--cc-space-3); flex-wrap: wrap; }
-      .search-field { position: relative; flex: 1; min-width: 240px; }
-      .search-field .icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1.25rem; color: var(--cc-text-subtle); }
+      .hero-copy h1 {
+        max-width: 14ch;
+        margin: 0 0 0.75rem;
+        font-size: clamp(2.25rem, 4.2vw, 3.5rem);
+        line-height: 1.05;
+      }
+      .lead { max-width: 44ch; margin: 0 0 1.25rem; }
+      .hero-search { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; }
+      .search-field { position: relative; min-width: 0; }
+      .search-field .icon {
+        position: absolute; inset-inline-start: 0.75rem; top: 50%; transform: translateY(-50%);
+        color: var(--cc-text-muted); pointer-events: none;
+      }
       .search-field input {
-        width: 100%; font: inherit; padding: 0.85rem 1rem 0.85rem 2.8rem; color: var(--cc-text);
-        background: var(--cc-surface); border: 1px solid var(--cc-border-strong); border-radius: var(--cc-radius-md);
+        box-sizing: border-box; width: 100%; min-height: 44px; height: 100%; padding: 0.625rem 0.75rem 0.625rem 2rem;
+        font: inherit; font-size: 0.875rem; color: var(--cc-text); background: var(--cc-surface);
+        border: 1px solid var(--cc-border-strong); border-radius: 0.625rem;
       }
-      .search-field input::placeholder { color: var(--cc-text-subtle); }
+      .search-field input::placeholder { color: var(--cc-text-muted); }
       .search-field input:focus { border-color: var(--cc-accent); }
-      .list-link { display: inline-block; margin-top: var(--cc-space-4); font-weight: 600; text-decoration: none; }
-
-      .hero-visual {
-        border-radius: var(--cc-radius-xl); overflow: hidden; border: 1px solid var(--cc-border-strong);
-        box-shadow: var(--cc-shadow-lg); line-height: 0;
-      }
-      .hero-visual img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 5 / 4; }
-
-      .section-head { margin-bottom: var(--cc-space-5); }
-      .explore { font-weight: 600; text-decoration: none; white-space: nowrap; }
-
-      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--cc-space-6); margin-top: var(--cc-space-5); }
-      .step { display: flex; gap: var(--cc-space-3); align-items: flex-start; }
-      .step h3 { margin: 0 0 0.3rem; font-size: var(--cc-text-lg); }
+      .hero-search button, .creator-bar .cc-btn { min-height: 44px; border-radius: 0.625rem; }
+      .list-link, .explore { font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+      .list-link { display: inline-block; margin-top: 0.875rem; }
+      .list-link:hover, .explore:hover { text-decoration: underline; }
+      .hero-visual { overflow: hidden; border-radius: 0.875rem; }
+      .hero-visual img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+      .home-section { padding-block: 1.75rem; border-top: 1px solid var(--cc-border); }
+      .home-section h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); }
+      .section-head { align-items: baseline; gap: 0.5rem 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+      .featured-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+      .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1rem; }
+      .step { display: flex; gap: 0.625rem; align-items: flex-start; }
+      .step h3 { margin: 0 0 0.25rem; font-size: 1rem; }
       .step p { margin: 0; font-size: var(--cc-text-sm); }
       .sicon {
-        flex: 0 0 auto; width: 46px; height: 46px; display: inline-flex; align-items: center; justify-content: center;
-        border-radius: var(--cc-radius-md); background: var(--cc-accent-soft); border: 1px solid var(--cc-accent-border);
-        color: var(--cc-accent-ink);
+        flex: 0 0 36px; height: 36px; display: grid; place-items: center; border-radius: 0.625rem;
+        background: var(--cc-accent-soft); color: var(--cc-accent-ink);
       }
-      .sicon svg { width: 22px; height: 22px; }
-
+      .sicon svg { width: 18px; height: 18px; }
+      .creator-section { padding-bottom: 2rem; }
       .creator-bar {
-        display: flex; align-items: center; gap: var(--cc-space-5); flex-wrap: wrap;
-        margin-top: var(--cc-space-6); padding: var(--cc-space-5) var(--cc-space-6);
-        border: 1px solid var(--cc-border-strong); border-radius: var(--cc-radius-xl); background: var(--cc-surface);
+        display: flex; align-items: center; gap: 0.625rem 1rem; flex-wrap: wrap;
+        padding: 0.875rem 1rem; border: 1px solid var(--cc-border-strong);
+        border-radius: 0.75rem; background: var(--cc-surface);
       }
-      .creator-bar h2 { margin: 0; white-space: nowrap; }
-      .creator-bar .divider { width: 1px; align-self: stretch; background: var(--cc-border); }
-      .creator-bar p { margin: 0; flex: 1; min-width: 220px; }
-
-      @media (max-width: 900px) {
+      .creator-bar h2 { margin: 0; font-size: 1.375rem; }
+      .creator-bar .divider { display: none; }
+      .creator-bar p { margin: 0; flex: 1 1 16rem; font-size: var(--cc-text-sm); }
+      @media (max-width: 760px) {
         .hero-inner { grid-template-columns: 1fr; }
-        .hero-visual { margin-top: var(--cc-space-4); }
-        .steps { grid-template-columns: 1fr; gap: var(--cc-space-4); }
-        .creator-bar .divider { display: none; }
+        .hero-visual img { aspect-ratio: 2 / 1; }
+        .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .steps { grid-template-columns: 1fr; gap: 0.875rem; }
+      }
+      @media (max-width: 400px) {
+        .hero-search { grid-template-columns: 1fr; }
+        .featured-grid { gap: 0.625rem; }
       }
     `,
   ],
