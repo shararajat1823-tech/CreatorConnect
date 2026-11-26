@@ -136,8 +136,8 @@ a:hover { color: var(--cc-accent-hover); }
 }
 img { max-width: 100%; display: block; }
 
-/* The discovery page gives the shared navigation and footer its own palette. */
-app-root:has(.creator-directory) {
+/* Creator discovery and profiles share the violet navigation and footer. */
+app-root:has(.creator-directory, .creator-profile-page) {
   app-directory .cc-container,
   app-header .cc-container,
   app-footer .cc-container {
@@ -196,7 +196,7 @@ app-root:has(.creator-directory) {
       color: #d6c8ff;
     }
 
-    .nav a.active {
+    .nav a:is(.active, .find-creators) {
       position: relative;
       background: #2b1b58;
       color: #e1d7ff;
@@ -222,7 +222,7 @@ app-root:has(.creator-directory) {
     }
 
     @media (min-width: 821px) {
-      .nav a.active::after {
+      .nav a:is(.active, .find-creators)::after {
         position: absolute;
         inset-inline: 0;
         inset-block-end: -14px;
@@ -323,5 +323,34 @@ app-root:has(.creator-directory) {
         grid-column: 1 / -1;
       }
     }
+  }
+}
+
+app-root:has(.creator-profile-page) {
+  app-header .site-header {
+    .nav a.find-creators {
+      background: transparent;
+      color: #bf9aff;
+    }
+
+    .sign-out-icon {
+      display: block;
+      color: #d6c1ff;
+    }
+
+    @media (min-width: 821px) {
+      .nav a.find-creators::after {
+        inset-block-end: -10px;
+        box-shadow: 0 0 9px #8d55f8;
+      }
+    }
+  }
+
+  app-footer .site-footer {
+    padding-block: 1.65rem 2rem;
+
+    .col h3 { color: #bf9aff; }
+    .bottom { margin-top: 1.5rem; }
+    .bottom::before { display: none; }
   }
 }

@@ -26,7 +26,7 @@ import { AuthService } from '../core/auth.service';
         </button>
 
         <nav id="primary-nav" class="nav" [class.open]="menuOpen()" aria-label="Primary">
-          <a routerLink="/directory" routerLinkActive="active" (click)="close()">Find Creators</a>
+          <a class="find-creators" routerLink="/directory" routerLinkActive="active" (click)="close()">Find Creators</a>
           <a routerLink="/list-your-channel" routerLinkActive="active" (click)="close()">
             List Your Channel
           </a>
@@ -35,6 +35,10 @@ import { AuthService } from '../core/auth.service';
           @if (auth.isSignedIn()) {
             <a routerLink="/dashboard" routerLinkActive="active" (click)="close()">Dashboard</a>
             <button class="cc-btn cc-btn--secondary cc-btn--sm" type="button" (click)="signOut()">
+              <svg class="sign-out-icon" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="currentColor">
+                <circle cx="10" cy="5.5" r="3.5" />
+                <path d="M3 17a7 7 0 0 1 14 0v1H3z" />
+              </svg>
               Sign out
             </button>
           } @else {
@@ -87,6 +91,7 @@ import { AuthService } from '../core/auth.service';
       }
       .nav a.active { color: var(--cc-accent-ink); }
       .nav a.cc-btn { color: var(--cc-text-on-accent); }
+      .sign-out-icon { display: none; }
       .menu-toggle {
         display: none;
         background: transparent;

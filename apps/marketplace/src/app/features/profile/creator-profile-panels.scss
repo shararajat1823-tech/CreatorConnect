@@ -1,0 +1,147 @@
+.video-panel { border-color: #6842a7; }
+
+.panel-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.all-videos { font-size: var(--cc-text-sm); text-decoration: none; }
+
+.all-videos:hover { text-decoration: underline; }
+
+.videos { display: grid; gap: 1rem; }
+
+.video-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr);
+  gap: clamp(0.8rem, 2.5vw, 1.9rem);
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover { color: inherit; }
+  &:hover .watch-label { background: #432474; }
+}
+
+.video-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--cc-radius-md);
+  background: #2c1b4a;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.video-play, .summary-chevron {
+  display: grid;
+  place-items: center;
+  border: 1px solid #9b60fd;
+  border-radius: 50%;
+  background: #281645c9;
+  color: #f2deff;
+}
+
+.video-play {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 3.15rem;
+  aspect-ratio: 1;
+}
+
+.video-copy { display: grid; gap: 0.65rem; justify-items: start; }
+
+.video-title { font-size: clamp(1rem, 1.55vw, 1.17rem); overflow-wrap: anywhere; }
+
+.watch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid #7949ce;
+  border-radius: var(--cc-radius-pill);
+  color: var(--profile-accent);
+  background: #281c49;
+  font-size: var(--cc-text-sm);
+  font-weight: 700;
+}
+
+.watch-label::before {
+  content: '';
+  width: 0.7rem;
+  height: 0.72rem;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.summary-panel {
+  background:
+    radial-gradient(ellipse 21rem 10rem at 103% 137%, #422185 4%, #28174c 70%, transparent 71%),
+    #1b1530;
+  padding-block: 1.2rem;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.65rem, 1.9vw, 1.25rem);
+}
+
+.summary-panel summary { cursor: pointer; list-style: none; }
+.summary-panel summary::-webkit-details-marker { display: none; }
+
+.summary-copy { flex: 1; min-width: 0; }
+.summary-copy p { margin: 0.25rem 0 0; color: var(--profile-muted); }
+
+.summary-chevron { flex: none; width: 2.25rem; height: 2.25rem; padding: 0.4rem; }
+details[open] .summary-chevron { transform: rotate(90deg); }
+
+.pricing { list-style: none; padding: 0; margin: 1rem 0 0; }
+.pricing li { display: flex; justify-content: space-between; gap: 0.9rem; padding: 0.6rem 0; border-top: 1px solid var(--profile-border); }
+.note { margin: 0.7rem 0 0; color: var(--profile-muted); font-size: var(--cc-text-sm); }
+
+.work-panel {
+  background: radial-gradient(ellipse 15rem 11rem at 52% 9%, #3a1d74, transparent), #1a142f;
+  border-color: #6641a0;
+
+  h2 {
+    font-size: clamp(1.5rem, 2.55vw, 2rem);
+    line-height: 1.22;
+    text-align: center;
+    overflow-wrap: anywhere;
+    margin-bottom: 1.25rem;
+  }
+}
+
+.work-art {
+  width: min(100%, 13.25rem);
+  height: auto;
+  max-height: 6.5rem;
+  object-fit: contain;
+  margin: 0 auto 0.6rem;
+}
+
+.work-actions { display: grid; gap: 0.85rem; }
+
+.work-actions .cc-btn { min-height: 3.2rem; padding-inline: 0.6rem; font-size: var(--cc-text-sm); }
+.sponsorship-button { background: #7335ea; color: white; }
+.sponsorship-button:hover { background: #8545f4; color: white; }
+.collaboration-button { border-color: #a568fb; color: #f5f0ff; }
+.collaboration-button:hover { background: #2a1c49; }
+
+.privacy-note, .report-link { display: flex; align-items: center; gap: 0.75rem; }
+.privacy-note { margin: 1.35rem 0 1.1rem; padding-top: 1.25rem; border-top: 1px solid var(--profile-border); color: var(--profile-muted); }
+.action-icon { flex: none; }
+.privacy-note .action-icon { color: var(--profile-accent); }
+.report-link { appearance: none; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; font-weight: 600; text-decoration: underline; }
+.report-link:hover { color: #e0c7ff; }
+
+@media (max-width: 480px) {
+  .video-row { grid-template-columns: 1fr; }
+}
