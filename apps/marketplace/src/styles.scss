@@ -135,3 +135,193 @@ a:hover { color: var(--cc-accent-hover); }
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 img { max-width: 100%; display: block; }
+
+/* The discovery page gives the shared navigation and footer its own palette. */
+app-root:has(.creator-directory) {
+  app-directory .cc-container,
+  app-header .cc-container,
+  app-footer .cc-container {
+    padding-inline: clamp(1rem, 5vw, 3.5rem);
+  }
+
+  app-header .site-header,
+  app-footer .site-footer {
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+  }
+
+  app-header .brand-mark,
+  app-footer .brand span {
+    display: inline-block;
+    flex: none;
+    width: 2rem;
+    aspect-ratio: 0.94;
+    font-size: 0;
+    background: conic-gradient(from 45deg at 39% 50%, #9872ff, #6a38ee, #4721b8, #a786ff, #9872ff);
+    clip-path: polygon(evenodd, 0 12%, 7% 3%, 18% 0, 29% 3%, 94% 41%, 100% 49%, 98% 58%, 90% 66%, 26% 98%, 15% 100%, 5% 95%, 0 86%, 0 12%, 34% 35%, 34% 67%, 61% 51%, 34% 35%);
+  }
+
+  app-header .site-header {
+    background: linear-gradient(105deg, #16112b, #0e0d19 58%, #0d0b17);
+    border-bottom-color: #2c2349;
+
+    .bar {
+      min-height: 61px;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+    }
+
+    .menu-toggle {
+      color: #e0d4fb;
+      border-color: #4b3a75;
+    }
+
+    .nav {
+      gap: clamp(0.6rem, 2.35vw, 1.8rem);
+    }
+
+    .nav a:not(.cc-btn) {
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--cc-radius-pill);
+      font-size: 0.8rem;
+      line-height: 1.35;
+    }
+
+    .nav a:not(.cc-btn):hover {
+      color: #d6c8ff;
+    }
+
+    .nav a.active {
+      position: relative;
+      background: #2b1b58;
+      color: #e1d7ff;
+    }
+
+    .nav .cc-btn--secondary {
+      border-color: #6043a6;
+      color: #f5f1ff;
+    }
+
+    .nav .cc-btn--secondary:hover {
+      background: #211738;
+      border-color: #a482ff;
+    }
+
+    .nav a.cc-btn--primary {
+      background: #5b35e7;
+      color: #fff;
+    }
+
+    .nav a.cc-btn--primary:hover {
+      background: #663ff5;
+    }
+
+    @media (min-width: 821px) {
+      .nav a.active::after {
+        position: absolute;
+        inset-inline: 0;
+        inset-block-end: -14px;
+        height: 3px;
+        background: #8053ff;
+        border-radius: 3px 3px 0 0;
+        content: '';
+      }
+    }
+
+    @media (max-width: 820px) {
+      .nav {
+        top: 100%;
+        gap: 0.5rem;
+        background: #151027;
+        border-bottom-color: #352857;
+      }
+    }
+  }
+
+  app-footer .site-footer {
+    margin-top: 0;
+    padding-block: 1.55rem 0.9rem;
+    background:
+      radial-gradient(ellipse 285px 145px at 104% 112%, #5a2cb9 0%, #331b76 55%, transparent 56%),
+      radial-gradient(ellipse 380px 185px at 104% 117%, #2b185f 0%, #1a1238 67%, transparent 68%),
+      linear-gradient(105deg, #17102f, #121020 68%, #171029);
+    border-top-color: #3c2c68;
+
+    .grid {
+      grid-template-columns: 1.9fr 1fr 0.9fr 1fr;
+      gap: clamp(1rem, 4vw, 3.5rem);
+    }
+
+    .col {
+      gap: 0.35rem;
+    }
+
+    .col h3 {
+      color: #d7cbf6;
+      font-size: 0.8rem;
+      letter-spacing: 0.025em;
+    }
+
+    .col a,
+    .col p,
+    .bottom {
+      font-size: 0.8rem;
+    }
+
+    .cc-subtle {
+      color: #bdb1d8;
+    }
+
+    .col p {
+      margin-block: 0;
+    }
+
+    .brand {
+      gap: 0.5rem;
+    }
+
+    .brand span {
+      width: 1.45rem;
+    }
+
+    .bottom {
+      margin-top: 0.9rem;
+    }
+
+    .bottom::before {
+      display: block;
+      height: 1px;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #423165 0%, #2d2249 72%, transparent);
+      content: '';
+    }
+
+    @media (min-width: 721px) {
+      .col:first-child {
+        padding-right: 1rem;
+        border-right: 1px solid #443465;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 440px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .col:first-child {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}

@@ -1,0 +1,142 @@
+<div class="cc-container page">
+  <header class="hero">
+    <div class="hero-copy">
+      <h1>Find <span>Creators</span></h1>
+      <p>Search and filter YouTube creators for sponsorships and collaborations.</p>
+    </div>
+    <img class="hero-art" src="/directory-hero.webp" alt="" fetchpriority="high" />
+  </header>
+
+  <form class="search-wrap" role="search" aria-label="Creator directory" (submit)="submitSearch($event, search.value)">
+    <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="10.8" cy="10.8" r="7.3" />
+      <path d="m16.3 16.3 4.2 4.2" />
+    </svg>
+    <input
+      #search
+      class="search"
+      type="search"
+      aria-label="Search creators"
+      placeholder="Search creators…"
+      [value]="filters().q ?? ''"
+      (input)="onSearch(search.value)"
+    />
+    <button class="cc-btn search-button" type="submit">Search</button>
+  </form>
+
+  <fieldset class="filters">
+    <legend class="cc-sr-only">Filter creators</legend>
+    @for (filter of filterChoices; track filter.key) {
+      <label class="filter">
+        <span>{{ filter.label }}</span>
+        <span class="select-wrap">
+          <svg class="filter-icon" width="17" height="17" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+            aria-hidden="true">
+            @switch (filter.key) {
+              @case ('niche') {
+                <path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z" />
+              }
+              @case ('language') {
+                <circle cx="12" cy="12" r="9" />
+                <ellipse cx="12" cy="12" rx="4" ry="9" />
+                <path d="M3 12h18" />
+              }
+              @case ('country') {
+                <path d="M19 10c0 5-7 10-7 10s-7-5-7-10a7 7 0 1 1 14 0Z" />
+                <circle cx="12" cy="10" r="2.2" />
+              }
+              @case ('range') {
+                <circle cx="9" cy="8" r="3" />
+                <path d="M3 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 5a3 3 0 0 1 0 6m2 3a4 4 0 0 1 3 4v2" />
+              }
+              @case ('format') {
+                <path d="m4 14 4 4a2 2 0 0 0 3 0l1-.8m-7-3.6 4-6.3m10 6.7-4.6 4.2a2 2 0 0 1-2.7.1l-3-2.4m5-5.7-2.5 2a2 2 0 0 1-2.6-.4l-.6-.7 3.8-4a2.8 2.8 0 0 1 2.8-.7l3.5 1.1" />
+                <path d="m2 12 4-6 3 2-4 6zm16-4 3-2 3 6-4 2z" />
+              }
+            }
+          </svg>
+          <select [id]="'f-' + filter.key" class="cc-select"
+            [value]="filters()[filter.key] ?? ''" (change)="set(filter.key, $event)">
+            <option value="">{{ filter.empty }}</option>
+            @for (option of filter.options; track option.id) {
+              <option [value]="option.id">{{ option.label }}</option>
+            }
+          </select>
+        </span>
+      </label>
+    }
+  </fieldset>
+  @if (hasFilters()) {
+    <button class="cc-btn cc-btn--ghost cc-btn--sm clear" type="button" (click)="clear()">Clear filters</button>
+  }
+
+  @let message = error();
+  @let listing = result();
+  <section class="results" aria-label="Creator results" [attr.aria-busy]="loading()">
+    @if (loading() && !listing) {
+      <app-state-view [spinner]="true" title="Loading creators…" />
+    } @else if (message) {
+      <app-state-view icon="⚠" title="Something went wrong" [message]="message">
+        <button class="cc-btn cc-btn--secondary" type="button" (click)="reload()">Try again</button>
+      </app-state-view>
+    } @else if (listing) {
+      <div class="results-head cc-spread">
+        <p class="count-line" aria-live="polite">
+          {{ listing.total }} {{ listing.total === 1 ? 'creator' : 'creators' }} found
+        </p>
+        <div class="controls">
+          <label class="sort">
+            <span>Sort by</span>
+            <span class="select-wrap">
+              <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L7 14.2l-5-4.9 6.9-1z" />
+              </svg>
+              <select class="cc-select" [value]="filters().sort ?? 'relevance'" (change)="set('sort', $event)">
+                <option value="relevance">Relevance</option>
+                <option value="subscribers">Subscribers</option>
+                <option value="newest">Newest</option>
+              </select>
+            </span>
+          </label>
+          <div class="view-toggle" role="group" aria-label="Results layout">
+            <button type="button" aria-label="Grid view" [attr.aria-pressed]="view() === 'grid'" (click)="view.set('grid')">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M2 2h7v7H2zm9 0h7v7h-7zM2 11h7v7H2zm9 0h7v7h-7z" />
+              </svg>
+            </button>
+            <button type="button" aria-label="List view" [attr.aria-pressed]="view() === 'list'" (click)="view.set('list')">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M2 4h2v2H2zm4 0h12v2H6zm-4 5h2v2H2zm4 0h12v2H6zm-4 5h2v2H2zm4 0h12v2H6z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      @if (listing.rows.length) {
+        <div class="creator-grid" [class.list-view]="view() === 'list'">
+          @for (creator of listing.rows; track creator.id) {
+            <app-creator-card [creator]="creator" [layout]="view()" />
+          }
+        </div>
+
+        @if (totalPages() > 1) {
+          <nav class="pager" aria-label="Pagination">
+            <a class="cc-btn cc-btn--secondary cc-btn--sm" [attr.aria-disabled]="page() <= 1"
+              [routerLink]="page() > 1 ? [] : null" [queryParams]="{ page: page() - 1 }"
+              queryParamsHandling="merge">‹ Prev</a>
+            <span>Page {{ page() }} of {{ totalPages() }}</span>
+            <a class="cc-btn cc-btn--secondary cc-btn--sm" [attr.aria-disabled]="page() >= totalPages()"
+              [routerLink]="page() < totalPages() ? [] : null" [queryParams]="{ page: page() + 1 }"
+              queryParamsHandling="merge">Next ›</a>
+          </nav>
+        }
+      } @else {
+        <app-state-view icon="🔍" title="No creators match your filters"
+          message="Try widening your search or clearing some filters." />
+      }
+    }
+  </section>
+</div>
